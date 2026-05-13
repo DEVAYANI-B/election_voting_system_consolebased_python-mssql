@@ -22,7 +22,9 @@ CREATE TABLE Voters(
     constituency VARCHAR(100)
 );
 CREATE TABLE Elections(
-election_id INT PRIMARY KEY REFERENCES Elections(election_id),
-voter_id
-
-)
+election_id INT PRIMARY KEY IDENTITY(1,1),
+election_name VARCHAR(100),
+election_date VARCHAR(50),
+constituency VARCHAR(100),
+status VARCHAR(20) DEFAULT 'UPCOMING'
+);
