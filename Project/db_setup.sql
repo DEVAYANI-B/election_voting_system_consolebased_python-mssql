@@ -13,8 +13,16 @@ party VARCHAR(100),
 constituency VARCHAR(100)
 
 );
-CREATE TABLE voters(
+CREATE TABLE Voters(
     voter_id INT PRIMARY KEY IDENTITY(1,1),
     name VARCHAR(100),
-    a
+    age INT,
+    gender VARCHAR(10),
+    phone VARCHAR(20),
+    constituency VARCHAR(100)
+);
+CREATE TABLE Elections(
+election_id INT PRIMARY KEY REFERENCES Elections(election_id),
+voter_id
+
 )
