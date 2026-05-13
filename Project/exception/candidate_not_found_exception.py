@@ -1,0 +1,3 @@
+class CandidateNotFoundException(Exception):
+    pass
+    
