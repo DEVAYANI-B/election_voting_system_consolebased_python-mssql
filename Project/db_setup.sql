@@ -1,4 +1,5 @@
-CREATE DATABASE appdb;
+-- Active: 1778694909566@@127.0.0.1@1433@appdb
+CREATE DATABASE IF NOT EXISTS appdb;
 GO
 
 USE appdb;
@@ -30,7 +31,7 @@ status VARCHAR(20) DEFAULT 'UPCOMING'
 );
 
 CREATE TABLE Votes(
-    vote_id PRIMARY KEY IDENTITY(1,1),
+    vote_id INT PRIMARY KEY IDENTITY(1,1),
     election_id INT FOREIGN KEY REFERENCES Elections(election_id),
     voter_id INT FOREIGN KEY REFERENCES Voters(voter_id),
     candidate_id INT FOREIGN KEY REFERENCES Candidates(candidate_id),
