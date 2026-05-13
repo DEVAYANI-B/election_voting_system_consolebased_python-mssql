@@ -5,4 +5,5 @@ class Election:
         self.election_date=election_date
         self.constituency=constituency
         self.status=status
-    def __str__
+    def __str__(self):
+        return f"{self.election_id} {self.election_name}"
