@@ -28,3 +28,21 @@ election_date VARCHAR(50),
 constituency VARCHAR(100),
 status VARCHAR(20) DEFAULT 'UPCOMING'
 );
+
+CREATE TABLE Votes(
+    vote_id PRIMARY KEY IDENTITY(1,1),
+    election_id INT FOREIGN KEY REFERENCES Elections(election_id),
+    voter_id INT FOREIGN KEY REFERENCES Voters(voter_id),
+    candidate_id INT FOREIGN KEY REFERENCES Candidates(candidate_id),
+    vote_date VARCHAR(50)
+);
+
+CREATE TABLE ElectionResults(
+    result_id INT PRIMARY KEY IDENTITY(1,1),
+    election_id INT FOREIGN KEY REFERENCES Elections(election_id),
+    candidate_id INT FOREIGN KEY REFERENCES Candidates(candidate_id),
+    total_votes INT,
+    result_status VARCHAR(20) DEFAULT 'PENDING'
+);
+
+GO
