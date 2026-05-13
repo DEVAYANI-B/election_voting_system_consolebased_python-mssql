@@ -1,0 +1,2 @@
+class ElectionClosureException(Exception):
+    pass
