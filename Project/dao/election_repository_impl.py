@@ -96,5 +96,45 @@ class EelectionRepositoryImpl(ElectionRepository):
         return True
     def get_elections_by_constituency(self,constituency: str)->List[Election]:
         self.cursor.execute("SELECT * FROM Elections where constituency=?",(constituency,))
-        rows=self.cursor
+        rows=self.cursor.fetchall()
+        return [Election(row[0],row[1],row[2],row[3],row[4]) for row in rows]
+    def get_election_by_id(self,election_id:int)->Election:
+        self.cursor.execute("SELECT * FROM Elections where election_id=?",(election_id,))
+        row=self.cursor.fetchone()
+        if row is None:
+            raise ElectionClosureException(f"Election with ID {election_id} not found")
+        return Election(row[0],row[1],row[2],row[3],row[4])
+    def cast_vote(self,vote:Vote)->bool:
+        if vote.election_id<=0 or vote.voter_id<=0 or vote.candidate_id <=0:
+            raise InvalidVoteException("election_id, voter_id and candidate_id must be greater than 0")
+        self.get_voter_by_id(vote.voter_id)
+        self.cursor.execute(
+            "SELECT * FROM Votes where election_id=? and voter_id=?",
+            (vote.election_id, vote.voter_id)
+        )
+        if self.cursor.fetchone() is not None:
+            raise InvalidVoteException("Voter has already voted in this election")
+        self.get_candidate_by_id(vote.candidate_id)
+        try:
+            self.cursor.execute(
+                "INSERT INTO Votes(election_id,voter_id,candidate_id,vote_date) values (?,?,?,?)",
+                (vote.election_id,vote.vote_id,vote.candidate_id,vote.vote_date)
+
+            )
+            self.conn.commit()
+            return True
+        except Exception:
+            return False
+    def get_votes_by_election(self,election_id: int)->List[Vote]:
+        self.cursor.execute("SELECT * FROM Votes where election_id=?",(election_id,))
+        rows=self.cursor.fetchall()
+        return [Vote(row[0], row[1], row[2], row[3], row[4]) for row in rows]
+    def declare_election_result(self,result: ElectionResult)->bool:
+        self.cursor.execute("SELECT * FROM Elections where election_id=?",(result.election_id,))
+        if self.cursor.fetchone() is None:
+            raise ElectionClosureException(f"Election with ID {result.election_id} not found")
+        if result.total_votes<0:
+            raise ElectionClosureException("total_votes must be >=0")
+        valid_statuses=
+
 
