@@ -7,4 +7,6 @@ class Voter:
         self.phone=phone
         self.constituency=constituency
     def __str__(self):
-        return (f"{self.voter_id} {self.name}"
+        return (f"Voter(voter_id={self.voter_id}, name={self.name}, "
+        f"age={self.age}, gender={self.gender}, phone={self.phone}, "
+        f"constituency={self.constituency})")
