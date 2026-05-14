@@ -1,9 +1,8 @@
 -- Active: 1778694909566@@127.0.0.1@1433@appdb
-CREATE DATABASE IF NOT EXISTS appdb;
-GO
+
 
 USE appdb;
-GO
+
 
 CREATE TABLE Candidates(
 candidate_id INT PRIMARY KEY IDENTITY(1,1),
@@ -46,4 +45,3 @@ CREATE TABLE ElectionResults(
     result_status VARCHAR(20) DEFAULT 'PENDING'
 );
 
-GO
