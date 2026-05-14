@@ -40,11 +40,24 @@ class ElectionRepository(ABC):
     def update_election_status(self,election_id:int,status:str)->bool:
         pass
     @abstractmethod
-    def 
+    def get_elections_by_constituency(self,constituency: str)-> List[Election]:
+        pass
+    @abstractmethod
+    def get_elections_by_id(self,election_id: int)->Election:
+        pass
+    
     @abstractmethod
     def cast_vote(self,vote):
         pass
     @abstractmethod
+    def get_votes_by_election(self,election_id:int)->List[Vote]:
+        pass
+    
+    @abstractmethod
     def declare_election_result(self,result):
         pass
+    @abstractmethod
+    def get_all_election_results(self)->List[ElectionResult]:
+        pass
+
         
