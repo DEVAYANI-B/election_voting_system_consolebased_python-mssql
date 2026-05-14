@@ -7,4 +7,6 @@ class Candidate:
         self.party=party
         self.constituency=constituency
     def __str__(self):
-        return f"{self.candidate_id} {self.name} {self.party}"
+        return (f"Candidate(candidate_id={self.candidate_id},name={self.name},
+        f"age={self.age}, gender={self.gender}, party= {self.party}, "
+        f"constituency={self.constituency})")

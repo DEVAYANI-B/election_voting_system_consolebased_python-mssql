@@ -7,4 +7,4 @@ class Voter:
         self.phone=phone
         self.constituency=constituency
     def __str__(self):
-        return f"{self.voter_id} {self.name}"
+        return (f"{self.voter_id} {self.name}"
