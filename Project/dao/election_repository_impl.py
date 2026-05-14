@@ -94,4 +94,7 @@ class EelectionRepositoryImpl(ElectionRepository):
         )
         self.conn.commit()
         return True
+    def get_elections_by_constituency(self,constituency: str)->List[Election]:
+        self.cursor.execute("SELECT * FROM Elections where constituency=?",(constituency,))
+        rows=self.cursor
 
