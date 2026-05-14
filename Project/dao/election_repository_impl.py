@@ -135,6 +135,21 @@ class EelectionRepositoryImpl(ElectionRepository):
             raise ElectionClosureException(f"Election with ID {result.election_id} not found")
         if result.total_votes<0:
             raise ElectionClosureException("total_votes must be >=0")
-        valid_statuses=
+        valid_statuses=["PENDING", "WON", "LOST", "DRAW"]
+        if result.result_status not in valid_statuses:
+            raise ElectionClosureException(f"Invalid result_status: {result.result_status}")
+        self.cursor.execute(
+            "INSERT INTO ElectionResults(election_id,candidate_id,total_votes,result_status) values (?,?,?,?)",
+            (result.election_id,result.candidate_id,result.total_votes,result.result_status)
 
+        )
+        self.conn.commit()
+        return True
+    def get_all_election_results(self)->List[ElectionResult]:
+        self.cursor.execute("SELECT * FROM ElectionResults")
+        rows=self.cursor.fetchall()
+        return [ElectionResult(row[0],row[1],row[2],row[3],row[4]) for row in rows]
+    def close(self):
+        self.cursor.close()
+        DBConnection.close_connection()
 
