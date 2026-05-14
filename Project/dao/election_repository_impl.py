@@ -25,4 +25,39 @@ class EelectionRepositoryImpl(ElectionRepository):
         except Exception:
             return False
     def update_candidate(self,candidate: Candidate)->bool:
-        self.get_candidate_by_id()
+        self.get_candidate_by_id(candidate.Candidate_id)
+        self.cursor.execute(
+            "UPDATE Candidates SET name=?,age=?,gender=?,party=?,constituency=? where candidate_id=?"
+            (candidate.name,candidate.age,candidate.gender,candidate.party,candidate.constituency,candidate.candidate_id)
+
+        )
+        self.conn.commit()
+        return True
+    def delete_candidates(self,candidate_id: int)-> bool:
+        self.get_candidate_by_id(candidate_id)
+        self.cursor.execute("DELETE FROM Candidates where candidate_id=?",(candidate_id,))
+        self.conn.commit()
+        return True
+    def get_candidate_by_id(self,candidate_id: int)->Candidate:
+        self.cursor.execute("SELECT * FROM Candidates where candidate_id=?",
+        (candidate_id,))
+        row=self.cursor.fetchone()
+        if row is None:
+            raise CandidateNotFoundException(f"Candidate with ID {candidate_id} not found")
+        return Candidate(row[0], row[1], row[2], row[3], row[4], row[5])
+    def add_voter(self,voter: Voter)->bool:
+        try:
+            self.cursor.execute(
+                "INSERT INTO Voters(name,age,gender,phone,constituency) values (?,?,?,?,?)",
+                (voter.name,voter.age,voter.gender,voter.phone,voter.constituency)
+
+            )
+            self.conn.commit()
+            return True
+        except Exception:
+            return False
+    def update_voter(self,voter:Voter)->bool:
+        self.get_voter_by_id(voter.voter_id)
+        self.cursor.execute(
+            "UPDATE Voters SET name=?,age=?,gender=?,phone=?,constituency=? where voter_id=?",
+        )
