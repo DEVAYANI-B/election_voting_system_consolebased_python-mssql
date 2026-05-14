@@ -60,4 +60,38 @@ class EelectionRepositoryImpl(ElectionRepository):
         self.get_voter_by_id(voter.voter_id)
         self.cursor.execute(
             "UPDATE Voters SET name=?,age=?,gender=?,phone=?,constituency=? where voter_id=?",
+            (voter.name,voter.age,voter.gender,voter.phone,voter.constituency,voter.voter_id)
+
         )
+        self.conn.commit()
+        return True
+    def delete_voter(self,voter_id: int)->bool:
+        self.get_voter_by_id(voter_id)
+        self.cursor.execute("DELETE FROM Voters where voter_id=?", (voter_id,))
+        self.conn.commit()
+        return True
+    def get_voter_by_id(self,voter_id: int)->Voter:
+        self.cursor.execute("SELECT * FROM Voters where voter_id=?",(voter_id,))
+        row=self.cursor.fetchone()
+        if row is None:
+            raise VoterNotFoundException(f"Voter with ID {voter_id} not found")
+        return Voter(row[0],row[1],row[2],row[3],row[4],row[5])
+    def add_election(self,election:Election)->bool:
+        try:
+            self.cursor.execute(
+                "INSERT INTO Elections (election_name,election_date,constituency,status) values (?,?,?,?)",
+                (election.election_name,election.election_date,election.constituency,election.status)
+
+            )
+            self.conn.commit()
+            return True
+        except Exception:
+            return False
+    def update_election_status(self,election_id: int,status: str)->bool:
+        self.cursor.execute(
+            "UPDATE Elections SET status=? where election_id=?",
+            (status,election_id)
+        )
+        self.conn.commit()
+        return True
+
