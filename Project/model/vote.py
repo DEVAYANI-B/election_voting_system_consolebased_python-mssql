@@ -10,4 +10,6 @@ class Vote:
         self.candidate_id=candidate_id
         self.vote_date=vote_date
     def __str__(self):
-        return (f"Vote({self.vote_id}"
+        return (f"Vote(vote_id={self.vote_id}, election_id={self.election_id}, "
+        f"voter_id={self.voter_id}, candidate_id={self.candidate_id}, "
+        f"vote_date={self.vote_date})")
