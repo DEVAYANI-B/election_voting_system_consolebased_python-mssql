@@ -17,6 +17,6 @@ class DBConnection:
         return DBConnection.conn
     @staticmethod
     def close_connection():
-        if DBConnection.conn:
+        if DBConnection.conn is not None:
             DBConnection.conn.close()
             DBConnection.conn=None
