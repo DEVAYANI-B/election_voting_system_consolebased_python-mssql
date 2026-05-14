@@ -36,7 +36,11 @@ class ElectionRepository(ABC):
     @abstractmethod
     def add_election(self,election):
         pass
-    
+    @abstractmethod
+    def update_election_status(self,election_id:int,status:str)->bool:
+        pass
+    @abstractmethod
+    def 
     @abstractmethod
     def cast_vote(self,vote):
         pass
